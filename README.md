@@ -19,11 +19,13 @@ You're probably gonna have to make some changes:
 - *list.txt*: Contains all block lists. Good lists can be found here:
     - https://firebog.net/
     - https://www.github.developerdan.com/hosts/
-    
+    - lists_big.txt contains a large number of blocklists
+
 
 - *regex.txt*: In this file all regex rules are collected. after all lists are downloaded, all entries already filtered by the built-in regex filters in Pi-Hole or AdGuardHome are ejected. Good Regex rules can be found here:
     - For AdGuardHome: https://github.com/mmotti/adguard-home-filters/blob/master/regex.txt
     - For Pi-Hole: https://github.com/mmotti/pihole-regex/blob/master/regex.list
+    - This file has to be added to AdGuardHome or each entry must be added in Pi-Hole.
 
 
 - *custom_blacklist.txt*: Pages you want to add to the big blocklist
