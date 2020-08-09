@@ -1,6 +1,0 @@
-192.168.media.trafficjunky.net
-ssltest.media.net
-www.cpmred.com
-www.fotobooth.at
-localhost
-localhost.localdomain

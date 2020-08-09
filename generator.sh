@@ -47,11 +47,9 @@ pcregrep -o '^([a-z0-9][a-z0-9-_]*\.)*[a-z0-9]*[a-z0-9-_]*[[a-z0-9]+$' "$TMP_LIS
 echo -e "Regex filters are applied ..."
 while read -r r; do sed -i -E "${r}d" "$TMP_LIST"; done <"$REGEX"
 
-echo -e "Entries of the whitelist are kept ..."
-cat "$CUSTOM_WHITELIST" >> "$TMP_LIST"
 
-echo -e "Sorting and removing duplicates one last time ..."
-grep -oe '^.*\S' "$TMP_LIST" | sort | uniq >"$TMP_LIST2" && mv -f "$TMP_LIST2" "$TMP_LIST"
+echo -e "Entries of the whitelist are kept ..."
+comm -23 <(sort "$TMP_LIST") <(sort "$CUSTOM_WHITELIST")  >"$TMP_LIST2" && mv -f "$TMP_LIST2" "$TMP_LIST"
 
 echo -e "Stats: Top 50 blocked domains ..."
 cat "$TMP_LIST" | sed 's/.*\.//' | sort | uniq -c | sort -nr | head -50 >"$GROUPED_BY_DOMAIN"
@@ -60,11 +58,11 @@ echo -e "Stats: Changelog ..."
 echo "$(date +"%Y-%m-%d %H:%M:%S")    $(wc -l <"$TMP_LIST") Domains" >>"$CHANGELOG"
 echo "$(tail -10 "$CHANGELOG")" >"$CHANGELOG"
 
-comm -13 "$TMP_LIST" "$FNL_LIST" >"$REMOVED_DOMAINS"
-comm -23 "$TMP_LIST" "$FNL_LIST" >"$ADDED_DOMAINS"
+comm -13 <(sort "$TMP_LIST") <(sort "$FNL_LIST") >"$REMOVED_DOMAINS"
+comm -23 <(sort "$TMP_LIST") <(sort "$FNL_LIST") >"$ADDED_DOMAINS"
 echo -e "Stats: \e[32m$(wc -l <"$ADDED_DOMAINS") \e[39madded domains ..."
 echo -e "Stats: \e[31m$(wc -l <"$REMOVED_DOMAINS") \e[39mremoved domains ..."
 
-echo -e "The generation is complete: \e[95m$(wc -l <"$TMP_LIST") \e[39mdomains are in the block list"
+echo -e "The generation is complete: \e[95m$(wc -l <"$TMP_LIST") domains are in the block list!"
 sed -e 's/^/0.0.0.0\ /' "$TMP_LIST" >"$FNL_LIST_ZERO"
 mv -f "$TMP_LIST" "$FNL_LIST"
