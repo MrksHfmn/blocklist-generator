@@ -63,6 +63,6 @@ comm -23 <(sort "$TMP_LIST") <(sort "$FNL_LIST") >"$ADDED_DOMAINS"
 echo -e "Stats: \e[32m$(wc -l <"$ADDED_DOMAINS") \e[39madded domains ..."
 echo -e "Stats: \e[31m$(wc -l <"$REMOVED_DOMAINS") \e[39mremoved domains ..."
 
-echo -e "The generation is complete: \e[95m$(wc -l <"$TMP_LIST") domains are in the block list!"
+echo -e "The generation is complete: \e[95m$(wc -l <"$TMP_LIST") domains are in the blocklist!"
 sed -e 's/^/0.0.0.0\ /' "$TMP_LIST" >"$FNL_LIST_ZERO"
 mv -f "$TMP_LIST" "$FNL_LIST"
